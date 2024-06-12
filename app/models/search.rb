@@ -1,12 +1,12 @@
 class Search < ApplicationRecord
-  scope :completed, -> { where('LENGTH(query) > 2') } # Example condition for completed search
+  validates_presence_of :query, :ip_address
 
   before_create :remove_incomplete_searches
 
   private
 
   def remove_incomplete_searches
-    Search.where(ip_address: ip_address).where('LENGTH(query) < LENGTH(?)', query).destroy_all
+    Search.where(ip_address: ip_address)
+          .where('LENGTH(query) < LENGTH(?) AND ? LIKE \'%\' || query || \'%\'', query, query).destroy_all
   end
 end
-  
