@@ -14,13 +14,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_12_024624) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "search_queries", force: :cascade do |t|
-    t.string "ip"
-    t.string "query"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "searches", force: :cascade do |t|
     t.string "query"
     t.string "ip_address"
