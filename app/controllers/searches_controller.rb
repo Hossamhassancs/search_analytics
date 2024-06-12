@@ -1,5 +1,5 @@
 class SearchesController < ApplicationController
-  before_action :user_ip_address
+  before_action :set_user_ip_address
 
   def index
     @top_searches = my_top_search_terms
@@ -7,11 +7,7 @@ class SearchesController < ApplicationController
 
   def create
     query = params[:query]
-    ip_address = request.remote_ip
-
-    if query.present?
-      LogSearchJob.perform_later(query, ip_address)
-    end
+    LogSearchJob.perform_later(query, @user_ip) if query.present?
 
     head :ok
   end
@@ -24,12 +20,12 @@ class SearchesController < ApplicationController
   private
 
   def my_top_search_terms
-    Rails.cache.fetch('my_top_searches', expires_in: 1.minutes) do
-      Search.where(ip_address: user_ip_address).group(:query).order('count_id DESC').count(:id)
+    Rails.cache.fetch("my_top_searches_#{@user_ip}", expires_in: 20.seconds) do
+      Search.where(ip_address: @user_ip).group(:query).order('count_id DESC').count(:id)
     end
   end
 
-  def user_ip_address
-    request.remote_ip
+  def set_user_ip_address
+    @user_ip = request.remote_ip
   end
 end
