@@ -1,24 +1,5 @@
-# README
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+#to up and the run the project:
+- docker and docker-compose pre intsalled
+- cd to project root directory and run docker-compose up --build
+- you can try the project at locallhost:3000
+- to try the project live go to http://3.88.128.161:3000/
